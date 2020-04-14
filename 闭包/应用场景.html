@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>计算打车价格</title>
+	</head>
+	<body>
+		<h3 id="">
+			打车起步价13（含3公里），之后每公里5元。用户输入公里数计算打车价格；
+			<br>
+			如果拥堵，总价加10元。
+		</h3>
+		<input type="text" class="distance-input" placeholder="请输入公里数" /></br>
+		<label for="yd-input">是否堵车</label><input type="checkbox" id="yd-input" class="yd-input" disabled />
+		<div>价格为：<span class="total-price">0</span>元</div>
+		<script type="text/javascript">
+			let domDistance = document.getElementsByClassName('distance-input')[0]
+			let domYD = document.getElementsByClassName('yd-input')[0]
+			let domPrice = document.getElementsByClassName('total-price')[0]
+			let car = (function() {
+				let startPrice = 13 // 起步价
+				let totalPrice = 0 // 总价
+				return {
+					price(distance) { // 计算正常的总价
+						if (distance > 3) {
+							totalPrice = startPrice + (distance - 3) * 5
+						} else {
+							totalPrice = startPrice
+						}
+						console.log("打车总价为" + totalPrice + "元")
+						return totalPrice
+					},
+					yd(bool, distance) { // 计算拥堵之后的总价
+						return bool ? this.price(distance) + 10 : this.price(distance)
+					}
+				}
+			})()
+
+			domDistance.addEventListener('input', (e) => {
+				console.log('e', e)
+				let bool = document.getElementsByClassName('yd-input')[0].checked
+				let distance = e.target.value || 0
+				domPrice.innerHTML = car.yd(bool, distance)
+
+				if (distance == 0) {
+					domYD.disabled = true
+				} else {
+					domYD.disabled = false
+				}
+			})
+			domYD.addEventListener('change', (e) => {
+				console.log("e", e)
+				let bool = e.target.checked
+				let distance = document.getElementsByClassName('distance-input')[0].value
+				domPrice.innerHTML = car.yd(bool, distance)
+			})
+		</script>
+	</body>
+</html>

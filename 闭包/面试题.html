@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>面试题</title>
+	</head>
+	<body>
+
+	</body>
+	<script type="text/javascript">
+		// 问题一（好未来）
+		const obj0 = {
+			str: 'obj0',
+			nativeFn: function() {
+				return function() {
+					console.log('原生函数', this.str);
+				}
+			},
+			arrowFn: function() {
+				return () => {
+					console.log('箭头函数', this.str);
+				}
+			}
+		};
+		const obj1 = {
+			str: 'obj1'
+		}
+		var nativeFn = obj0.nativeFn();
+		var arrowFn = obj0.arrowFn();
+		nativeFn();
+		arrowFn();
+
+		nativeFn.call(obj1);
+		arrowFn.call(obj1);
+
+
+		console.log("-------------" + "我是分割线" + "------------")
+
+
+		// 问题二
+		let name = "window里的name"
+		let obj2 = {
+			name: "obj2里的name",
+			getName1() {
+				return this.name
+			},
+			getName2() {
+				return function() {
+					return this.name
+				}
+			},
+			getName3() {
+				return () => {
+					return this.name
+				}
+			},
+			getName4() {
+				console.log('4', (function() {
+					return this.name
+				})())
+			},
+			getName5() {
+				console.log('5', (() => {
+					return this.name
+				})())
+			},
+			getName6() {
+				return function() {
+					return () => {
+						return this.name
+					}
+				}
+			},
+			getName7() {
+				return function() {
+					let _this = this
+					return function() {
+						return _this.name
+					}
+				}
+			},
+			getName8() {
+				let _this = this
+				return function() {
+					return function() {
+						return _this.name
+					}
+				}
+			},
+		}
+		console.log('1', obj2.getName1())
+		console.log('2', obj2.getName2()())
+		console.log('3', obj2.getName3()())
+		obj2.getName4()
+		obj2.getName5()
+		console.log('6', obj2.getName6()()())
+		console.log('7', obj2.getName7()()())
+		console.log('8', obj2.getName8()()())
+		// 解析：
+		// 命名函数的this指向是根据执行环境定义的，谁调用指向谁
+		// 匿名函数的执行环境具有全局性，因此其this对象通常指向window（除非这个上下文（执行环境）是在严格模式下执行的，而严格模式下该this指向undefined）
+		// 箭头函数不改变this指向，箭头函数里的this绑定为词法作用域的this执行环境
+
+		console.log("-------------" + "我是分割线" + "------------")
+
+
+		// 问题三：生成一个随机数， 每次调用都返回这个随机数
+		getRandom = () => {
+			var num = Math.random()
+
+			// 闭包，把num返回到函数外面
+			return () => {
+				return num;
+			}
+		}
+		// 先用a储存第一次调用函数生成的随机数num，函数无法再被销毁，可以反复调用
+		var a = getRandom()
+		console.log(a())
+		console.log(a())
+		console.log(a())
+	</script>
+</html>
