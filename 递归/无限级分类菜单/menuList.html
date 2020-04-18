@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>递归无限级分类菜单</title>
+	</head>
+	<style type="text/css">
+		::-webkit-scrollbar {
+			display: none
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			text-decoration: none;
+			list-style: none;
+		}
+
+		#menu-page {
+			display: flex;
+		}
+
+		/* 侧边菜单栏 */
+		.menu-sidebar {
+			width: 150px;
+			height: 100vh;
+			color: #ffffff;
+			background-color: #009966;
+			overflow-y: scroll;
+			overflow-x: hidden
+		}
+
+		/* 菜单栏标题 */
+		.menu-title {
+			border-bottom: 1px solid rgba(255, 255, 255, .5);
+		}
+
+		.menu-title:hover {
+			background-color: #008050;
+			cursor: pointer
+		}
+
+		.current-title {
+			background-color: #009060;
+		}
+
+		/* 菜单列表ul */
+		.menu-ul {}
+
+		.hide-ul {
+			display: none;
+		}
+
+		/* 菜单列表li */
+		.menu-li {
+			width: 100%;
+			line-height: 50px;
+			color: #ffffff;
+		}
+
+		/* 内容区域 */
+		.menu-content {
+			flex: 1;
+			height: 100vh;
+			overflow-y: scroll;
+			color: #009966;
+			background-color: #FFFF99;
+			padding: 30px;
+		}
+	</style>
+	<body>
+		<div id="menu-page">
+			<div class="menu-sidebar">
+				<ul class="menu-ul ul-1">
+
+				</ul>
+			</div>
+			<div class="menu-content">
+				<h3>内容</h3>
+			</div>
+		</div>
+		<script src="menuList.json" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			let menuList = menuData.menuList || []
+			console.log('菜单数据', menuList)
+			let domList = document.getElementsByClassName('menu-ul')[0]
+
+			function createMenu(dom, list) {
+				// console.log("创建菜单", dom, list)
+				list.forEach(item => { // 遍历生成li和内容
+
+					let level = item.id.split('-').length // 获取当前层级
+
+					let domLi = document.createElement("li") // 创建li节点
+					let domH = document.createElement('h4') // 创建li节点标题
+					domH.classList.add('menu-title') // li标题添加类名
+					domH.innerHTML = item.name // li标题赋值
+
+					domH.style.paddingLeft = level + "rem" // 每个层级首行缩进1字符、
+
+					domLi.appendChild(domH)
+					domLi.classList.add('menu-li') // 命名类名
+					domLi.classList.add('li-' + level) // 用层级命名类名
+
+					if (item.subList && item.subList.length > 0) { // 还有下一级
+						let domUl = document.createElement('ul') // 创建li的下一级ul节点
+						domUl.classList.add('menu-ul')
+						domUl.classList.add('ul-' + (Number(level) + 1))
+						domUl.classList.add('hide-ul') // 默认隐藏
+						domLi.appendChild(domUl)
+						createMenu(domUl, item.subList)
+					}
+
+					dom.appendChild(domLi)
+				})
+			}
+
+			createMenu(domList, menuList) // 创建菜单
+
+			domList.addEventListener('click', (e) => { // 事件委托——点击菜单
+				// console.log('e.target：', e.target)
+				if (e.target.className.indexOf('menu-title') != -1) { // 给菜单添加点击事件
+					e.target.classList.toggle('current-title')
+
+					// 该菜单标题dom相邻的ul列表显示隐藏
+					let domUl = e.target.nextElementSibling || ""
+					console.log('e.target.nextElementSibling', e.target.nextElementSibling)
+					domUl && domUl.classList.toggle('hide-ul')
+				}
+			})
+		</script>
+	</body>
+</html>
