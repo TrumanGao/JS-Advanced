@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Object</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			let obj1 = {
+				"PG": "JOHNSON",
+				"SG": "JORDAN",
+				"SF": "JAMES",
+				"PF": "DENKEN",
+				"C": "ONeal",
+				fn() {
+					console.log("对象1")
+				}
+			}
+
+			// 对象的浅拷贝
+			let obj2 = obj1;
+			console.log("obj1 === obj2", obj2 === obj1)
+
+			// 对象的浅拷贝
+			let obj3 = Object.assign(obj1)
+			obj3.fn = () => {
+				console.log("对象3")
+			}
+			console.log("obj1 === obj3", obj3 === obj1)
+
+			// 对象的深拷贝
+			let obj4 = {
+				...obj1,
+				// 重定义函数
+				fn() {
+					console.log("对象4")
+				}
+			}
+			console.log("obj1 === obj4", obj4 === obj1)
+
+
+			let res1 = {
+				"关羽": 99,
+				"张飞": 99,
+				"赵云": 99
+			}
+			let res2 = {
+				"黄忠": 98,
+				"马超": 99,
+				"张飞": 98
+			}
+			let resDot = {
+				...res1,
+				...res2
+			}
+			console.log(resDot)
+			let resAssign = Object.assign(res1, res2)
+			console.log(resAssign)
+			console.log("resDot === resAssign", resDot === resAssign)
+		</script>
+	</body>
+</html>

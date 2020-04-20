@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>异步执行顺序面试题</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// 面试题一：
+			function fn1() {
+				async function async1() {
+					console.log('2.async1 start')
+					let result = await axios()
+
+					async2()
+					console.log('7.async1 end')
+				}
+
+				async function async2() {
+					console.log('3.async2')
+				}
+
+				console.log('1.script start')
+
+				setTimeout(function() {
+					console.log('8.setTimeout')
+				}, 0)
+
+				async1();
+
+				new Promise(function(resolve) {
+					console.log('4.promise1')
+					resolve();
+				}).then(function() {
+					console.log('6.promise2')
+				})
+
+				console.log('5.script end')
+			}
+
+			// 面试题二：
+			function fn2() {
+				setTimeout(function() {
+					console.log(1)
+				}, 0);
+				new Promise(function executor(resolve) {
+					console.log(2);
+					for (var i = 0; i < 10000; i++) {
+						i == 9999 && resolve();
+					}
+					console.log(3);
+				}).then(function() {
+					console.log(4);
+				});
+				console.log(5);
+			}
+
+			// 面试题三：
+			function fn3() {
+				let num = 0;
+				let fnTest = new Promise((success, fail) => {
+					setTimeout(() => {
+						for (let i = 0; i < 6; i++) {
+							num++
+						}
+						success(num)
+					}, 0)
+				})
+				fnTest.then((result) => {
+					console.log(num)
+				})
+			}
+
+			// 面试题四：
+			function fn4() {
+				function fnTest() {
+					setTimeout(() => {
+						let num = 100
+					}, 1000)
+					console.log(num)
+				}
+
+				fnTest()
+			}
+
+			fn4()
+		</script>
+	</body>
+</html>

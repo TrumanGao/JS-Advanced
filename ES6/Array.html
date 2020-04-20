@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Array</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// 一、reduce 方法
+			let myArr = [7, 6, 5, 4, 3, 2, 1]
+
+			// 二、数组的拷贝
+			// 浅拷贝
+			function fn1() {
+				let arr = [1, 2, 3, 4, 5]
+
+				let arr2 = arr;
+				console.log(arr === arr2)
+				console.log(arr2)
+				arr2.push(6)
+				console.log(arr, arr2)
+			}
+			// 深拷贝方法一
+			function fn2() {
+				let arr = [1, 2, 3, 4, 5]
+
+				let arr2 = Array.from(arr);
+				console.log(arr === arr2)
+				console.log(arr2)
+				arr2.push(6)
+				console.log(arr, arr2)
+			}
+			// 深拷贝方法二
+			function fn3() {
+				let arr = [1, 2, 3, 4, 5]
+
+				let arr2 = [...arr]
+				console.log(arr === arr2)
+				console.log(arr2)
+				arr2.push(6);
+				console.log(arr, arr2)
+			}
+			console.log("数组的浅拷贝----------------------")
+			fn1()
+			console.log("数组的深拷贝1----------------------")
+			fn2()
+			console.log("数组的深拷贝2----------------------")
+			fn3()
+		</script>
+	</body>
+</html>

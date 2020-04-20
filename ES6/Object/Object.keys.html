@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Object.keys</title>
+	</head>
+	<body>
+		<h4>ES6提供了entries()，keys()，values()方法返回数组的遍历器</h4>
+	</body>
+	<script type="text/javascript">
+		let arr = [undefined, null, , 100, 200, 300]
+		let obj = {
+			"PG": "JOHNSON",
+			"SG": "JORDAN",
+			"SF": "JAMES",
+			"PF": "DENKEN",
+			"C": "ONeal"
+		}
+		
+		// 一、遍历数组
+		console.group("遍历数组：for(var val of arr)------------------------------------")
+		console.table(arr)
+
+		console.info("遍历数组的键：for (var val of arr.keys())-------------")
+		for (var i of arr.keys()) {
+			console.log(i)
+		}
+
+		console.info("遍历数组的值：for (var val of arr)-------------")
+		for (var val of arr) {
+			console.log(val)
+		}
+
+		console.info("遍历数组的键值对：for (var item of arr.entries())--------------")
+		for (var item of arr.entries()) {
+			console.log(item)
+		}
+
+		console.info("遍历数组的键和值：for (var [i,val] of arr.entries())----------------")
+		for (var [i, val] of arr.entries()) {
+			console.log(i, val)
+		}
+
+		console.error("for/in 打印索引+值，但不打印空值，不适合用于遍历数组-------------")
+		for (var i in arr) {
+			console.log(i, arr[i])
+		}
+		console.groupEnd("遍历数组------------------------------------")
+
+
+		// 二、遍历对象
+		console.group("遍历对象：for(var key in obj)-----------------------------------")
+		console.table(obj)
+
+		console.info("遍历对象的键-------------------------")
+		for (var key in obj) {
+			console.log(key)
+		}
+
+		console.log("遍历对象的值-------------")
+		for (var key in obj) {
+			console.log(obj[key])
+		}
+
+		console.error("for / of 不能循环对象, 会报错")
+		console.groupEnd("遍历对象-----------------------------------")
+
+
+		// 三、遍历数组和对象
+		console.group("遍历数组和对象：Object.keys(arr) / Object.keys(obj)")
+		console.table(arr);
+		console.table(obj);
+
+		console.info("遍历数组的键（不含值为空的键）")
+		console.log(Object.keys(arr))
+
+		console.info("遍历数组的值-----------------")
+		Object.keys(arr).forEach((item) => {
+			console.log(arr[item])
+		})
+
+		console.info("遍历对象的键-----------------")
+		console.log(Object.keys(obj))
+
+		console.info("遍历对象的值-----------------")
+		Object.keys(obj).forEach((item, index) => {
+			console.log(obj[item])
+		})
+		console.groupEnd("遍历数组和对象：Object.keys(arr) / Object.keys(obj)")
+	</script>
+</html>

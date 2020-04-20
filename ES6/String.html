@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>字符串方法</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			let str = "TrumanGao"
+			// 1. startsWith() 判断是否以某字符开头
+			console.log(1, str.startsWith('Tru'))
+			// 2. endsWidth() 判断是否以某字符结束
+			console.log(2, str.endsWith('ao'))
+
+			// 方法区分大小写
+			console.log(3, str.startsWith('tru'))
+			console.log(4, str.endsWith('gao'))
+			
+			// 3. repeat() 方法
+			console.log(5, str.repeat(1))
+			console.log(6, str.repeat()) // 必须传入重复次数参数，为空则返回空字符串
+		</script>
+	</body>
+</html>
