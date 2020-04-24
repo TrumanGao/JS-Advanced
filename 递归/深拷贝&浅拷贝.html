@@ -5,5 +5,100 @@
 		<title>深拷贝&浅拷贝</title>
 	</head>
 	<body>
+		<h4>浅拷贝：只拷贝一层</h4>
+		<h5>注意：如果对象内的属性有复杂数据类型，如对象、函数，浅拷贝后该复杂数据类型内存地址不变，会互相影响。</h5>
+		<h4>深拷贝：每一级别都拷贝，复杂数据类型开辟新地址</h4>
+		<script type="text/javascript">
+			let obj = {
+				name: "无止尘",
+				age: 26,
+				hobbies: ["电影", "篮球", "摄影"],
+				// study: function() {
+				// 	console.log(this.name + "正在编程")
+				// }
+			}
+			let newObj = {}
+
+			// 浅拷贝
+			// 方法一：
+			// Object.assign(newObj, obj)
+			// 方法二：
+			// for (let key in obj) {
+			// 	newObj[key] = obj[key]
+			// }
+			// 方法三：
+			newObj = { ...obj
+			}
+			console.log("newObj", JSON.parse(JSON.stringify(newObj)))
+			// 修改新对象复杂数据类型属性的值，发现原对象也被修改
+			newObj.name = "Truman"
+			newObj.hobbies.push("编程")
+			console.log("obj", JSON.parse(JSON.stringify(obj)))
+			console.log("newObj", JSON.parse(JSON.stringify(newObj)))
+
+			// 深拷贝：
+			// 方法一：
+			function deepCopy(newData = {}, oldData = {}) {
+
+				// newData 新建对象或数组，用于接收要拷贝的对象或数组
+				console.log("深拷贝新对象", JSON.parse(JSON.stringify(newData)))
+
+				// oldData 要拷贝的对象或数组，或其内部遍历到的要拷贝的对象或数组
+				console.log("深拷贝原对象", JSON.parse(JSON.stringify(oldData)))
+
+				for (var key in oldData) {
+					console.log("属性名：", key)
+
+					let type = Object.prototype.toString.call(oldData[key])
+					console.log("属性值的数据类型：", type)
+
+					if (type == "[object Object]") { // 对象类型
+						newData[key] = new Object // 空对象，接收要拷贝的对象
+						deepCopy(newData[key], oldData[key])
+
+					} else if (type == "[object Array]") { // 数组类型
+						newData[key] = new Array // 空数组，接收要拷贝的数组
+						deepCopy(newData[key], oldData[key])
+
+					} else { // 简单类型
+						newData[key] = oldData[key]
+					}
+				}
+			}
+			// deepCopy(newObj, obj)
+
+			// 方法二：
+			// newObj = JSON.parse(JSON.stringify(obj))
+			// 缺点：
+			// 循环对象用这种方法会抛出异常
+			// Map, Set, RegExp, Date, ArrayBuffer 和其他内置类型在进行序列化时会丢失
+
+			// 方法三：
+			// Channel Messaging API 允许我们创建一个新的消息通道，并通过它的两个 MessagePort 属性发送数据
+			// 缺点：
+			// 异步
+			// 属性值为 function 时，报错
+			function deepClone2(obj) {
+				return new Promise(resolve => {
+					const {
+						port1,
+						port2
+					} = new MessageChannel()
+
+					port1.postMessage(obj)
+
+					port2.onmessage = (event) => {
+						resolve(event.data) // 通过 Message Event 对象获取发送来的数据
+					}
+				})
+			}
+			deepClone2(obj).then(res => {
+				newObj = res
+				console.log('obj', JSON.parse(JSON.stringify(obj)))
+
+				newObj.hobbies.push('睡觉')
+				console.log('newObj', JSON.parse(JSON.stringify(newObj)))
+			})
+		</script>
 	</body>
 </html>
