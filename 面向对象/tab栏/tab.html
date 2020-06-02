@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>面向对象tab栏</title>
+	</head>
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+			box-sizing: border-box;
+		}
+
+		html {
+			font-size: 18px;
+		}
+
+		.tab-box {
+			width: 500px;
+			margin: 100px auto;
+		}
+
+		/* tab栏上部 */
+		.tab-bar {
+			display: flex;
+			justify-content: space-between;
+			border: 1px solid #999999;
+			border-bottom: none;
+		}
+
+		.tab-nav ul {
+			display: flex;
+			align-items: center;
+		}
+
+		.nav-item {
+			border-right: 1px solid #999999;
+			padding: 5px 10px;
+		}
+
+		.nav-active {
+			background-color: skyblue !important;
+		}
+
+		.nav-item:hover {
+			background-color: #f9f9f9;
+			cursor: pointer;
+		}
+
+		.nav-title {}
+
+		.nav-input {
+			display: inline-block;
+		}
+
+		.display-none {
+			display: none;
+		}
+
+
+		.add-btn {
+			padding-left: 5px;
+
+		}
+
+		.close-btn {
+			display: inline-block;
+			padding: 5px;
+			transform: rotate(45deg);
+		}
+
+		.close-btn:hover {
+			color: red;
+		}
+
+		/* tab栏下部 */
+		.tab-content {}
+
+		.content-item {
+			border: 1px solid #999999;
+			display: none;
+			height: 200px;
+			padding: 20px;
+		}
+
+		.content-active {
+			display: block;
+		}
+	</style>
+	<body>
+		<div id="tab"
+		 class="tab-box">
+			<div class="tab-bar">
+				<nav class="tab-nav">
+					<ul>
+						<li class="nav-item nav-active">
+							<span class="nav-title">测试一</span>
+							<input class="nav-input display-none"
+							 type="text">
+							<span class="close-btn">+</span>
+						</li>
+						<li class="nav-item">
+							<span class="nav-title">测试二</span>
+							<input class="nav-input display-none"
+							 type="text">
+							<span class="close-btn">+</span>
+						</li>
+					</ul>
+				</nav>
+				<div class="add-btn">+</div>
+			</div>
+			<div class="tab-content">
+				<div class="content-item content-active">测试一</div>
+				<div class="content-item"></div>
+			</div>
+		</div>
+		<script src="./tab.js"
+		 type="text/javascript"
+		 charset="utf-8"></script>
+	</body>
+</html>
