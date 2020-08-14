@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		#proxy-form label {
+			display: block;
+		}
+	</style>
+	<body>
+		<form id="proxy-form" action="" method="post">
+			<!-- rule: 2到10位-->
+			<label for="name-input">用户名：<input type="text" name="name" id="name-input" placeholder="请输入用户名" value="Truman" /></label>
+			<!-- rule: 6位数字字母组合-->
+			<label for="password-input">密码：<input type="text" name="password" id="password-input" placeholder="请输入密码" value="123456" /></label>
+			<!-- rule: 手机号标准格式-->
+			<label for="moblie-input">手机号：<input type="text" name="moblie" id="moblie-input" placeholder="请输入手机号" value="15152230868" /></label>
+
+			<button type="button" onclick="submitFormData">保存</button>
+		</form>
+	</body>
+	<script type="text/javascript">
+		// proxy-form
+		const domForm = document.querySelector('#proxy-form')
+		const domInputs = domForm.querySelectorAll('input')
+		const formData = new Proxy()
+		domForm.querySelectorAll('input').call(Array, )
+		console.log('domForm', domForm)
+		// submitFormData
+	</script>
+</html>
