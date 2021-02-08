@@ -3,11 +3,47 @@
   <head>
     <meta charset="utf-8" />
     <title>Proxy表单</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      *:focus {
+        outline: none;
+      }
+      .proxy-form {
+        display: inline-block;
+      }
+      .proxy-form-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .proxy-form-item__label {
+        font-size: 16px;
+      }
+      .proxy-form-item__content {
+        position: relative;
+      }
+      .proxy-form-item__content .proxy-input {
+        width: 200px;
+        height: 40px;
+        border-radius: 40px;
+        border: 1px solid #cccccc;
+        padding: 20px;
+      }
+      .proxy-form-item__content .proxy-form-item__error {
+        position: absolute;
+        left: 20px;
+        bottom: -16px;
+        font-size: 12px;
+        color: red;
+      }
+    </style>
   </head>
   <body>
-    <proxy-form></proxy-form>
+    <proxy-form label-width="60px"></proxy-form>
   </body>
-  <script type="text/javascript">
+  <script lang="ts" type="text/javascript">
     // 传入配置参数：
     // 表单项的参数（name, element, type, value, placeholder）
     const formOptions = {
@@ -19,7 +55,7 @@
           name: "name",
           type: "text",
           placeholder: "请输入用户名",
-          value: "11"
+          value: ""
         }
       },
       password: {
@@ -46,9 +82,34 @@
       }
     };
 
-    // "phone": = /^1[0-9]{10}$/.test(val);
     // 传入表单项的校验规则
     const formRule = {
+      name(val) {
+        if (!val) {
+          return {
+            isError: true,
+            message: "用户名不能为空"
+          };
+        } else {
+          return {
+            isError: false,
+            message: ""
+          };
+        }
+      },
+      password(val) {
+        if (!val) {
+          return {
+            isError: true,
+            message: "密码不能为空"
+          };
+        } else {
+          return {
+            isError: false,
+            message: ""
+          };
+        }
+      },
       mobile(val) {
         if (!val) {
           return {
@@ -102,12 +163,9 @@
             if (validateRes.isError) {
               console.log("错误提示节点", formItemError);
               // 校验不通过
-              if (formItemError) {
-                // formItemError.innerText = validateRes.message;
-              } else {
+              if (!formItemError) {
                 formItemError = document.createElement("div");
                 formItemError.classList.add("proxy-form-item__error");
-                // formItemError.innerText = validateRes.message;
                 formItemContent.appendChild(formItemError);
               }
               formItemError.innerText = validateRes.message;
@@ -121,8 +179,10 @@
         });
 
         // 获取自定义标签属性的集合
+        const formAttributes = {};
         Array.prototype.map.call(this.attributes, attr => {
           console.log(attr.name + ": " + attr.value);
+          formAttributes[attr.name] = attr.value;
         });
 
         // 创建表单节点
@@ -145,6 +205,10 @@
           formItemLabel.className = "proxy-form-item__label";
           formItemLabel.setAttribute("for", option.id);
           formItemLabel.innerText = option.label;
+
+          if (formAttributes["label-width"]) {
+            formItemLabel.style.width = formAttributes["label-width"];
+          }
 
           // 创建表单项盒子
           const formItemContent = document.createElement("div");
